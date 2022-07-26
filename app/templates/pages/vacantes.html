@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block titulo %} Inicio {% endblock %}
+
+{% block contenido %}
+
+<div class="border p-3 shadow-lg rounded">
+
+    <div class="row">
+        <div class="col-6">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Selecciona el area de trabajo</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="col-6">
+            <div class="mb-3">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Selecciona el país</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- COLUMNA 1 -->
+        <div class="col-3">
+            <div class="mb-3">
+                <label for="txtSkills" class="form-label">Skills</label>
+                <input type="text" class="form-control" id="txtSkills" placeholder="ReactJS, Javascript">
+            </div>
+
+            <div class="mb-3">
+                <label for="txtSkills" class="form-label">Ciudad</label>
+                <input type="text" class="form-control" id="txtCiudad" placeholder="ReactJS, Javascript">
+            </div>
+
+            <div class="mb-3">
+                <label for="txtYearExperiencia" class="form-label">Años de experiencia</label>
+                <input type="number" min="1" class="form-control" id="txtYearExperiencia" placeholder="1">
+            </div>
+
+            <div class="mb-3">
+                <label for="txtModalidad" class="form-label">Modalidad</label>
+                <select class="form-select" aria-label="Default select example" id="txtModalidad">
+                    <option selected>Selecciona La Modalidad</option>
+                    <option value="Presencial">Presencial</option>
+                    <option value="Remoto">Remoto</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary mb-3">APLICAR FILTROS</button>
+            </div>
+
+
+
+        </div>
+
+        <!-- COLUMNA 2 -->
+        <div class="col-9">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <!-- <th scope="col">#</th> -->
+                        <th scope="col">puesto_trabajo</th>
+                        <th scope="col">modalidad_trabajo</th>
+                        <th scope="col">fecha_inicio_experiencia</th>
+                        <th scope="col">ciudad</th>
+                        <th scope="col">skills</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in vancantes %}
+                    <tr>
+                        <td>{{item.1}}</td>
+                        <td>{{item.2}}</td>
+                        <td>{{item.3}}</td>
+                        <td>{{item.4}}</td>
+                        <td>{{item.5}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

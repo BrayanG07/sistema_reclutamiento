@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block titulo %}  Inicio {% endblock %}
+
+{%  block contenido %} 
+
+<div class="p-5 bg-light">
+    <div class="container">
+        <h1 class="display-3">Bienvenido al sistema de contratación IA</h1>
+        <p class="lead">Comenzar a buscar talentos</p>
+        <hr class="my-2">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="{% url 'vacantes' %}" role="button">Empezar</a>
+        </p>
+    </div>
+</div>
+
+{% endblock %}   
