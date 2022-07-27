@@ -6,9 +6,7 @@
 
 <div class="border p-3 shadow-lg rounded">
 
-
-
-    <form action="">
+    <form method="POST">
         {% csrf_token %}
         <div class="row">
             <div class="col-6">
@@ -21,8 +19,8 @@
             </div>
             <div class="col-6">
                 <div class="mb-3">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected value="0">Selecciona el país</option>
+                    <select class="form-select" aria-label="Default select example" name="txtCountry">
+                        <option selected value="">Selecciona el país</option>
                         <option value="Honduras">Honduras</option>
                         <option value="El Salvador">El Salvador</option>
                         <option value="Costa Rica">Costa Rica</option>
@@ -42,8 +40,7 @@
                 <div class="mb-3" id="campos-dinamicos">
                     <div class="row">
                         <div class="col-10">
-                            <input type="text" class="form-control" name="txtSkill0"
-                                placeholder="Escriba el nombre de una skill">
+                            <input type="text" class="form-control" name="txtSkill0" placeholder="Escriba el nombre de una skill" value="">
                         </div>
                         <div class="col-lg-2">
                             <button type="button" id="btnAddSkills" class="btn btn-info text-white"
@@ -58,18 +55,18 @@
 
                 <div class="mb-3">
                     <label for="txtSkills" class="form-label">Ubicación</label>
-                    <input type="text" class="form-control" id="txtUbication" placeholder="ReactJS, Javascript">
+                    <input type="text" class="form-control" name="txtUbication" placeholder="Ciudad" value="">
                 </div>
 
                 <div class="mb-3">
                     <label for="txtYearExperiencia" class="form-label">Años de experiencia</label>
-                    <input type="number" min="1" class="form-control" id="txtYearExperience" placeholder="1">
+                    <input type="number" min="0" class="form-control" name="txtYearExperience" placeholder="0">
                 </div>
 
                 <div class="mb-3">
                     <label for="txtModalidad" class="form-label">Modalidad</label>
-                    <select class="form-select" aria-label="Default select example" id="txtModality">
-                        <option selected>Selecciona La Modalidad</option>
+                    <select class="form-select" aria-label="Default select example" name="txtModality">
+                        <option selected value="">Selecciona La Modalidad</option>
                         <option value="Presencial">Presencial</option>
                         <option value="Remoto">Remoto</option>
                     </select>
@@ -105,7 +102,7 @@
                                 <p class="blockquote-footer mb-0 px-4">{{ param.experience_start_date }} años de <cite title="Source Title">Experiencia</cite></p>
                                 </div>
                                 <div class="col-lg-5">
-                                    <h6 class="card-title text-center">Skills Internet | Informatica</h6>
+                                    <h6 class="card-title text-center">{{ param.name }}</h6>
                                     <ul class="list-group">
                                         {% for item in list_skills %}
 
