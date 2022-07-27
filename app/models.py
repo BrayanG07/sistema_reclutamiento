@@ -7,7 +7,7 @@ class Job_Position(models.Model):
   status = models.CharField(max_length=20, verbose_name='Estado')
 
   def __str__(self):
-        return str(self.name)
+      return str(self.name)
 
 
 class Vacant(models.Model):
@@ -26,7 +26,7 @@ class Vacant(models.Model):
     modality = models.CharField(max_length=50, verbose_name='Modalidad')
   
     def __str__(self):
-            return str(self.name_complete)
+      return self
 
 class Skills(models.Model):
     vacant = models.ForeignKey(
@@ -37,4 +37,4 @@ class Skills(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nombre')
   
     def __str__(self):
-            return str(self.name)
+      return str(self.name)

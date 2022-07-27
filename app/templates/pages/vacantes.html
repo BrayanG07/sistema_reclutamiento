@@ -6,89 +6,129 @@
 
 <div class="border p-3 shadow-lg rounded">
 
-    <div class="row">
-        <div class="col-6">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Selecciona el area de trabajo</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-        <div class="col-6">
-            <div class="mb-3">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Selecciona el país</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- COLUMNA 1 -->
-        <div class="col-3">
-            <div class="mb-3">
-                <label for="txtSkills" class="form-label">Skills</label>
-                <input type="text" class="form-control" id="txtSkills" placeholder="ReactJS, Javascript">
-            </div>
-
-            <div class="mb-3">
-                <label for="txtSkills" class="form-label">Ciudad</label>
-                <input type="text" class="form-control" id="txtCiudad" placeholder="ReactJS, Javascript">
-            </div>
-
-            <div class="mb-3">
-                <label for="txtYearExperiencia" class="form-label">Años de experiencia</label>
-                <input type="number" min="1" class="form-control" id="txtYearExperiencia" placeholder="1">
-            </div>
-
-            <div class="mb-3">
-                <label for="txtModalidad" class="form-label">Modalidad</label>
-                <select class="form-select" aria-label="Default select example" id="txtModalidad">
-                    <option selected>Selecciona La Modalidad</option>
-                    <option value="Presencial">Presencial</option>
-                    <option value="Remoto">Remoto</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary mb-3">APLICAR FILTROS</button>
-            </div>
 
 
-
-        </div>
-
-        <!-- COLUMNA 2 -->
-        <div class="col-9">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <!-- <th scope="col">#</th> -->
-                        <th scope="col">puesto_trabajo</th>
-                        <th scope="col">modalidad_trabajo</th>
-                        <th scope="col">fecha_inicio_experiencia</th>
-                        <th scope="col">ciudad</th>
-                        <th scope="col">skills</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in vancantes %}
-                    <tr>
-                        <td>{{item.1}}</td>
-                        <td>{{item.2}}</td>
-                        <td>{{item.3}}</td>
-                        <td>{{item.4}}</td>
-                        <td>{{item.5}}</td>
-                    </tr>
+    <form action="">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                <select class="form-select" aria-label="Default select example" name="txtJobPosition">
+                    <option selected value="0">Selecciona el area de trabajo</option>
+                    {% for item in list_job_position %}
+                    <option value="{{ item.id }}">{{ item.name }}</option>
                     {% endfor %}
-                </tbody>
-            </table>
+                </select>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected value="0">Selecciona el país</option>
+                        <option value="Honduras">Honduras</option>
+                        <option value="El Salvador">El Salvador</option>
+                        <option value="Costa Rica">Costa Rica</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Inglaterra">Inglaterra</option>
+                    </select>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <div class="row">
+
+            <!-- COLUMNA 1 -->
+            <div class="col-lg-3">
+                <label for="txtSkills" class="form-label">Skills</label>
+                <input type="hidden" name="txtCantidadSkills" id="txtCantidadSkills" value="0">
+                <div class="mb-3" id="campos-dinamicos">
+                    <div class="row">
+                        <div class="col-10">
+                            <input type="text" class="form-control" name="txtSkill0"
+                                placeholder="Escriba el nombre de una skill">
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="button" id="btnAddSkills" class="btn btn-info text-white"
+                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+                                data-bs-title="Agregar otra skill.">
+                                +
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtSkills" class="form-label">Ubicación</label>
+                    <input type="text" class="form-control" id="txtUbication" placeholder="ReactJS, Javascript">
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtYearExperiencia" class="form-label">Años de experiencia</label>
+                    <input type="number" min="1" class="form-control" id="txtYearExperience" placeholder="1">
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtModalidad" class="form-label">Modalidad</label>
+                    <select class="form-select" aria-label="Default select example" id="txtModality">
+                        <option selected>Selecciona La Modalidad</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="Remoto">Remoto</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mb-3">APLICAR FILTROS</button>
+                </div>
+
+            </div>
+            <!-- COLUMNA 2 -->
+            <div class="col-lg-9">
+                {% for param in list_vacant %}
+                    <div class="card mb-2 border shadow">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h5 class="card-title text-primary">{{ param.name_complete }}</h5>
+                                </div>
+                                <div class="col-lg-6 text-end">
+                                    <h6 class="card-title">{{ param.country }} / {{ param.city }}</h6>
+                                </div>
+                                <hr>
+
+                                <div class="col-lg-7">
+                                    <h6 class="card-title text-center mb-5">Información Personal</h6>
+                                    <p class="card-text px-3">
+                                    {{ param.email }}
+                                    <br>
+                                    Modalidad de preferencia: <span style="font-style: italic;">{{ param.modality }}</span>
+                                    </p>
+                                </p>
+                                <p class="blockquote-footer mb-0 px-4">{{ param.experience_start_date }} años de <cite title="Source Title">Experiencia</cite></p>
+                                </div>
+                                <div class="col-lg-5">
+                                    <h6 class="card-title text-center">Skills Internet | Informatica</h6>
+                                    <ul class="list-group">
+                                        {% for item in list_skills %}
+
+                                            {% if param.id == item.vacant_id %}
+                                                <li class="list-group-item">{{ item.name }}</li>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+
+
+    </form>
+
 
 </div>
 
