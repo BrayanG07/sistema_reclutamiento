@@ -8,17 +8,23 @@
 
     <form method="POST">
         {% csrf_token %}
+
         <div class="row">
-            <div class="col-6">
-                <select class="form-select" aria-label="Default select example" name="txtJobPosition">
-                    <option selected value="0">Selecciona el area de trabajo</option>
-                    {% for item in list_job_position %}
-                    <option value="{{ item.id }}">{{ item.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-6">
+
+            <!-- COLUMNA 1 -->
+            <div class="col-lg-3">
                 <div class="mb-3">
+                    <label for="txtJobPosition" class="form-label">Areas de trabajo</label>
+                    <select class="form-select" aria-label="Default select example" name="txtJobPosition">
+                        <option selected value="0">Selecciona el area de trabajo</option>
+                        {% for item in list_job_position %}
+                        <option value="{{ item.id }}">{{ item.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtCountry" class="form-label">País</label>
                     <select class="form-select" aria-label="Default select example" name="txtCountry">
                         <option selected value="">Selecciona el país</option>
                         <option value="Honduras">Honduras</option>
@@ -28,19 +34,14 @@
                         <option value="Inglaterra">Inglaterra</option>
                     </select>
                 </div>
-            </div>
-        </div>
 
-        <div class="row">
-
-            <!-- COLUMNA 1 -->
-            <div class="col-lg-3">
                 <label for="txtSkills" class="form-label">Skills</label>
                 <input type="hidden" name="txtCantidadSkills" id="txtCantidadSkills" value="0">
                 <div class="mb-3" id="campos-dinamicos">
                     <div class="row">
                         <div class="col-10">
-                            <input type="text" class="form-control" name="txtSkill0" placeholder="Escriba el nombre de una skill" value="">
+                            <input type="text" class="form-control" name="txtSkill0"
+                                placeholder="Escriba el nombre de una skill" value="">
                         </div>
                         <div class="col-lg-2">
                             <button type="button" id="btnAddSkills" class="btn btn-info text-white"
@@ -55,7 +56,7 @@
 
                 <div class="mb-3">
                     <label for="txtSkills" class="form-label">Ubicación</label>
-                    <input type="text" class="form-control" name="txtUbication" placeholder="Ciudad" value="">
+                    <input type="text" class="form-control" name="txtUbication" placeholder="Ciudad" value="{{ position | default:'' }}">
                 </div>
 
                 <div class="mb-3">
@@ -75,11 +76,18 @@
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary mb-3">APLICAR FILTROS</button>
                 </div>
-
             </div>
             <!-- COLUMNA 2 -->
             <div class="col-lg-9">
-                {% for param in list_vacant %}
+
+                {% if error != '' %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {{ error }}
+                    </div>    
+                {% else %}
+
+                    {% for param in list_vacant %}
                     <div class="card mb-2 border shadow">
                         <div class="card-body">
                             <div class="row">
@@ -94,22 +102,21 @@
                                 <div class="col-lg-7">
                                     <h6 class="card-title text-center mb-5">Información Personal</h6>
                                     <p class="card-text px-3">
-                                    {{ param.email }}
-                                    <br>
-                                    Modalidad de preferencia: <span style="font-style: italic;">{{ param.modality }}</span>
+                                        {{ param.email }}
+                                        <br>
+                                        Modalidad de preferencia: <span style="font-style: italic;">{{ param.modality }}</span>
                                     </p>
-                                </p>
-                                <p class="blockquote-footer mb-0 px-4">{{ param.experience_start_date }} años de <cite title="Source Title">Experiencia</cite></p>
+                                    </p>
+                                    <p class="blockquote-footer mb-0 px-4">{{ param.experience_start_date }} años de <cite
+                                            title="Source Title">Experiencia</cite></p>
                                 </div>
                                 <div class="col-lg-5">
                                     <h6 class="card-title text-center">{{ param.name }}</h6>
                                     <ul class="list-group">
-                                        {% for item in list_skills %}
-
-                                            {% if param.id == item.vacant_id %}
-                                                <li class="list-group-item">{{ item.name }}</li>
+                                        {% for skills in list_skills %}
+                                            {% if param.id == skills.vacant_id %}
+                                                <li class="list-group-item">{{ skills.name }}</li>
                                             {% endif %}
-
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -117,12 +124,16 @@
                             </div>
                         </div>
                     </div>
-                {% endfor %}
+                    {% empty %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            Desafortunadamente no encontramos postulantes para tu busqueda.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}    
+                    
+                {% endif %}
 
             </div>
-
-
-
 
     </form>
 
