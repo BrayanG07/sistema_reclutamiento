@@ -23,10 +23,23 @@ def vacantes(request):
         vacantes = Vacant.objects.raw(resultado[1], resultado[0])
         skills = Vacant.objects.raw(resultado[2], resultado[0])
 
+        # valores.append(job_position)
+        # valores.append(years_experience)
+        # valores.append(country)
+        # valores.append(city)
+        # valores.append(modality)
+
+        print(resultado[3][0])
+
         lists = {
             'list_job_position': list_job_position, 
             'list_vacant': vacantes,
             'error': error,
+            'job': int(resultado[3][0]),
+            'years': resultado[3][1],
+            'country': resultado[3][2],
+            'city': resultado[3][3],
+            'modality': resultado[3][4],
         }
 
         return render(request, 'pages/vacantes.html', lists)
@@ -142,6 +155,7 @@ def evaluarFiltros(request):
             resultado.append(filtros)
             resultado.append(sql)
             resultado.append(query)
+            resultado.append(valores)
 
             return resultado
         else:
@@ -211,6 +225,7 @@ def evaluarFiltros(request):
             resultado.append(filtros)
             resultado.append(sql_find_skills)
             resultado.append(query_find_skills) 
+            resultado.append(valores) 
         
         return resultado
 

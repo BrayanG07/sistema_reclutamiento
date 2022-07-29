@@ -18,7 +18,7 @@
                     <select class="form-select" aria-label="Default select example" name="txtJobPosition">
                         <option selected value="0">Selecciona el area de trabajo</option>
                         {% for item in list_job_position %}
-                        <option value="{{ item.id }}">{{ item.name }}</option>
+                            <option value="{{ item.id }}" {% if job == item.id %} selected {% else %} '' {% endif %}>{{ item.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -27,11 +27,11 @@
                     <label for="txtCountry" class="form-label">País</label>
                     <select class="form-select" aria-label="Default select example" name="txtCountry">
                         <option selected value="">Selecciona el país</option>
-                        <option value="Honduras">Honduras</option>
-                        <option value="El Salvador">El Salvador</option>
-                        <option value="Costa Rica">Costa Rica</option>
-                        <option value="Mexico">Mexico</option>
-                        <option value="Inglaterra">Inglaterra</option>
+                        <option value="Honduras" {% if country == "Honduras" %} selected {% else %} '' {% endif %}>Honduras</option>
+                        <option value="El Salvador" {% if country == "El Salvador" %} selected {% else %} '' {% endif %}>El Salvador</option>
+                        <option value="Costa Rica" {% if country == "Costa Rica" %} selected {% else %} '' {% endif %}>Costa Rica</option>
+                        <option value="Mexico" {% if country == "Mexico" %} selected {% else %} '' {% endif %}>Mexico</option>
+                        <option value="Inglaterra" {% if country == "Inglaterra" %} selected {% else %} '' {% endif %}>Inglaterra</option>
                     </select>
                 </div>
 
@@ -56,20 +56,20 @@
 
                 <div class="mb-3">
                     <label for="txtSkills" class="form-label">Ubicación</label>
-                    <input type="text" class="form-control" name="txtUbication" placeholder="Ciudad" value="{{ position | default:'' }}">
+                    <input type="text" class="form-control" name="txtUbication" placeholder="Ciudad" value="{{ city | default:'' }}">
                 </div>
 
                 <div class="mb-3">
                     <label for="txtYearExperiencia" class="form-label">Años de experiencia</label>
-                    <input type="number" min="0" class="form-control" name="txtYearExperience" placeholder="0">
+                    <input type="number" min="0" class="form-control" name="txtYearExperience" placeholder="0" value="{{ years | default:'' }}">
                 </div>
 
                 <div class="mb-3">
                     <label for="txtModalidad" class="form-label">Modalidad</label>
                     <select class="form-select" aria-label="Default select example" name="txtModality">
-                        <option selected value="">Selecciona La Modalidad</option>
-                        <option value="Presencial">Presencial</option>
-                        <option value="Remoto">Remoto</option>
+                        <option value="">Selecciona La Modalidad</option>
+                        <option value="Presencial" {% if modality == "Presencial" %} selected {% else %} '' {% endif %}>Presencial</option>
+                        <option value="Remoto" {% if modality == "Remoto" %} selected {% else %} '' {% endif %}>Remoto</option>
                     </select>
                 </div>
 
