@@ -1,6 +1,8 @@
+import json
 from unittest import result
 from django.shortcuts import render, redirect
 from .models import Job_Position, Skills, Vacant
+import requests
 
 # Create your views here.
 
@@ -18,32 +20,28 @@ def vacantes(request):
             error = "Debes seleccionar el area de trabajo para poder filtrar"
             return render(request, 'pages/vacantes.html', {'list_job_position': list_job_position, 'error': error})
 
-        resultado = evaluarFiltros(request)
+        resultado = evaluar_filtros(request)
 
         vacantes = Vacant.objects.raw(resultado[1], resultado[0])
         skills = Vacant.objects.raw(resultado[2], resultado[0])
-
-        # valores.append(job_position)
-        # valores.append(years_experience)
-        # valores.append(country)
-        # valores.append(city)
-        # valores.append(modality)
-
-        print(resultado[3][0])
+        data = get_api_job()["hits"]
 
         lists = {
             'list_job_position': list_job_position, 
             'list_vacant': vacantes,
+            'list_skills': skills,
             'error': error,
             'job': int(resultado[3][0]),
             'years': resultado[3][1],
             'country': resultado[3][2],
             'city': resultado[3][3],
             'modality': resultado[3][4],
+            'data_api': data
         }
 
         return render(request, 'pages/vacantes.html', lists)
     else:
+
         sql = "SELECT v.id, v.name_complete, TIMESTAMPDIFF(YEAR, v.experience_start_date, CURRENT_DATE()) as experience_start_date, v.city, v.email, v.country, v.modality, j.name FROM app_vacant v INNER JOIN app_job_position j ON v.job_position_id = j.id WHERE v.job_position_id BETWEEN 1 AND 3 AND v.country = 'Honduras'"
         vacantes = Vacant.objects.raw(sql)
 
@@ -54,12 +52,12 @@ def vacantes(request):
             'list_job_position': list_job_position, 
             'list_vacant': vacantes,
             'list_skills': skills,
-            'error': error
+            'error': error,
         }
 
         return render(request, 'pages/vacantes.html', lists)
 
-def evaluarFiltros(request):
+def evaluar_filtros(request):
     if request.POST:
         listSkills = ""
         resultado = []
@@ -229,4 +227,14 @@ def evaluarFiltros(request):
         
         return resultado
 
+def get_api_job():
 
+    url = "https://api.recruitee.com/c/83143/search/new/candidates?limit=100&page=1&sort_by=created_at_desc"
+
+    headers = {
+        "Accept": "application/json",
+        "Authorization": "Bearer dHZKcHJMREFkdG1ic0NpYXcwRVpydz09"
+    }
+
+    response = requests.get(url, headers=headers)
+    return json.loads(response.text)

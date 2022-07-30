@@ -76,6 +76,7 @@
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary mb-3">APLICAR FILTROS</button>
                 </div>
+
             </div>
             <!-- COLUMNA 2 -->
             <div class="col-lg-9">
@@ -124,11 +125,47 @@
                             </div>
                         </div>
                     </div>
+                    
                     {% empty %}
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            Desafortunadamente no encontramos postulantes para tu busqueda.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+
+                        {% if job == 18 %} 
+                            {% for p in data_api %} 
+                                <div class="card mb-2 border shadow">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <h5 class="card-title text-primary">{{ p.name }}</h5>
+                                            </div>
+                                            <div class="col-lg-6 text-end">
+                                                <h6 class="card-title">No Especificado</h6>
+                                            </div>
+                                            <hr>
+            
+                                            <div class="col-lg-7">
+                                                <h6 class="card-title text-center">Información</h6>
+                                                {% for dat in p.placements %}
+                                                    <p class="card-text px-3">{{ dat.offer.title }}</p>
+                                                {% endfor %}
+
+                                                {% for par in p.emails %}
+                                                    <p class="card-text px-3">{{ par }}</p>
+                                                {% endfor %}
+                                                
+                                            </div>
+            
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            
+                        {% else %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                Desafortunadamente no encontramos postulantes para tu busqueda.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endif %}
+                        
                     {% endfor %}    
                     
                 {% endif %}
